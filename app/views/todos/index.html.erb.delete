@@ -1,0 +1,4 @@
+
+<% @todos.each do |todo| %>
+  <p><strong>Title:</strong> <%= todo.title %></p>
+<% end %>
