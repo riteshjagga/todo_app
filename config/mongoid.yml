@@ -139,10 +139,4 @@ test:
 production:
   clients:
     default:
-      database: todo_app_production
-      hosts:
-        - mongodb://heroku_6hhlglxq:dbq1dt5renj8rajjkc4tqpp8cm@ds111791.mlab.com:11791/heroku_6hhlglxq
-      options:
-        read:
-          mode: :primary
-        max_pool_size: 1
+      uri: <%= ENV['MONGODB_URI'] %>
