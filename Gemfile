@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
-ruby "2.2.2"
+ruby "2.4.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+# gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.8'
 
 gem 'mongoid', '5.0.2'
 gem 'mongoid-enum'
