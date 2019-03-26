@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required" : [
+    "_id",
+    "_status",
+    "created_at",
+    "is_deleted",
+    "tag_ids",
+    "title",
+    "updated_at"
+  ],
+  "properties" : {
+    "_id" : { "type" : "object" },
+    "_status" : { "type" : "string" },
+    "created_at" : { "type" : "string", "format": "date-time" },
+    "is_deleted" : { "type" : "boolean" },
+    "tag_ids" : { "type" : "array" },
+    "title" : { "type" : "string" },
+    "updated_at" : { "type" : "string", "format": "date-time" }
+  }
+}

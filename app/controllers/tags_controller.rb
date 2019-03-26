@@ -5,13 +5,17 @@ class TagsController < ApplicationController
   # GET /tags
   def index
     page_params = params[:page]
-    page_params ||= 1
-
+    # page_params ||= 1
+    #
     items_per_page = params[:items_per_page]
-    items_per_page ||= 5
+    # items_per_page ||= 5
 
     @tags = Tag.page(page_params).per(items_per_page)
-    render json: @tags
+    # @count = Tag.count
+    # @tags_response = {"tags" => @tags, "count" => Tag.count}
+    # @tags_response = {count: @count, tags: @tags}
+    # render json: @tags
+    render json: {count: Tag.count, tags: @tags}
   end
 
   # POST /tags
@@ -24,7 +28,7 @@ class TagsController < ApplicationController
     end
   end
 
-  # PATCH /tags/:id
+  # PUT /tags/:id
   def update
     if @tag.update(tag_params)
       render json: @tag

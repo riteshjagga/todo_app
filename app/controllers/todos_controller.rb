@@ -27,7 +27,7 @@ class TodosController < ApplicationController
     if @todo.save
       render json: @todo
     else
-      render json: @todo.errors
+      render json: @todo.errors, status: :unprocessable_entity
     end
   end
 
@@ -39,10 +39,9 @@ class TodosController < ApplicationController
   # PUT /todos/:id
   def update
     if @todo.update(todo_params)
-      puts todo_params
       render json: @todo
     else
-      render json: @todo.errors
+      render json: @todo.errors, status: :unprocessable_entity
     end
   end
 
@@ -52,37 +51,24 @@ class TodosController < ApplicationController
     if @todo.save
       render json: @todo
     else
-      render json: @todo.errors
+      render json: @todo.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /todos/:id
   def destroy
     @todo.is_deleted = true
-    if @todo.save
-      render json: @todo
-    else
-      render json: @todo.errors
-    end
+    render json: @todo if @todo.save
   end
 
   # PATCH /todos/:id/undo_delete
   def undo_delete
     @todo.is_deleted = false
-    if @todo.save
-      render json: @todo
-    else
-      render json: @todo.errors
-    end
+    render json: @todo if @todo.save
   end
 
   private
     def todo_params
-      # params[:todo]
-      puts "ppppppppppppppppppppppppppppppppppppppppppppp"
-      p params
-      puts "ppppppppppppppppppppppppppppppppppppppppppppp"
-
       # {"todo"=>{"title"=>"Tag with tags", "tags"=>["5c8a44b38b48f5253b4b7b4c", "5c8a480b8b48f55958516e54"]}, "controller"=>"todos", "action"=>"create"}
       params.require(:todo).permit(:title, :tag_ids => [])
     end
