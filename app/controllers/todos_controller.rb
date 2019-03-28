@@ -4,11 +4,8 @@ class TodosController < ApplicationController
 
   # GET /todos
   def index
-    page_params = params[:page]
-    page_params ||= 1
-
-    items_per_page = params[:items_per_page]
-    items_per_page ||= 5
+    page_params = params[:page].presence || 1
+    items_per_page = params[:items_per_page].presence || 5
 
     deleted = !!params[:deleted]
     todos_scope = deleted ? Todo.deleted : Todo.not_deleted

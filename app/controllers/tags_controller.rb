@@ -5,10 +5,7 @@ class TagsController < ApplicationController
   # GET /tags
   def index
     page_params = params[:page]
-    # page_params ||= 1
-    #
     items_per_page = params[:items_per_page]
-    # items_per_page ||= 5
 
     @tags = Tag.page(page_params).per(items_per_page)
     # @count = Tag.count
