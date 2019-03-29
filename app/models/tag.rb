@@ -8,7 +8,8 @@ class Tag
   field :name, type: String
 
   # Validations
-  validates :name, presence: true, uniqueness: true, length: {minimum: 3, maximum: 25}
+  validates :name, presence: true
+  validates :name, uniqueness: true, length: {minimum: 3, maximum: 25}
 
   # Associations
   has_and_belongs_to_many :todos

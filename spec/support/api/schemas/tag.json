@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required" : [
+    "_id",
+    "name",
+    "created_at",
+    "todo_ids",
+    "updated_at"
+  ],
+  "properties" : {
+    "_id" : { "type" : "object" },
+    "name" : { "type" : "string" },
+    "created_at" : { "type" : "string", "format": "date-time" },
+    "todo_ids" : { "type" : "array" },
+    "updated_at" : { "type" : "string", "format": "date-time" }
+  }
+}
