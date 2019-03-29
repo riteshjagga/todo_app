@@ -21,7 +21,7 @@ class TagsController < ApplicationController
     if @tag.save
       render json: @tag
     else
-      render json: @tag.errors
+      render json: @tag.errors, status: :unprocessable_entity
     end
   end
 
@@ -30,7 +30,7 @@ class TagsController < ApplicationController
     if @tag.update(tag_params)
       render json: @tag
     else
-      render json: @tag.errors
+      render json: @tag.errors, status: :unprocessable_entity
     end
   end
 
