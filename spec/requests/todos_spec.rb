@@ -80,7 +80,7 @@ RSpec.describe 'Todo API', type: :request do
       end
 
       it 'returns a validation failure messages' do
-        expect(response.body).to match(/can\'t be blank/)
+        expect(response.body).to match(/can't be blank/)
         expect(response.body).to match(/is too short/)
       end
     end
