@@ -11,6 +11,7 @@ RSpec.describe 'Tag API', type: :request do
       it 'returns all tags' do
         get "/tags"
         json = JSON.parse(response.body)
+
         expect(json['tags'].size).to eq(10)
       end
     end
@@ -19,8 +20,10 @@ RSpec.describe 'Tag API', type: :request do
       it 'returns paginated list of tags' do
         page = 1
         items_per_page = 10
+
         get "/tags?page=#{page}&items_per_page=#{items_per_page}"
         json = JSON.parse(response.body)
+
         expect(json['tags'].size).to eq(10)
       end
     end
@@ -30,7 +33,7 @@ RSpec.describe 'Tag API', type: :request do
     it 'gets a tag' do
       get "/tags/#{tag_id}"
       json = JSON.parse(response.body)
-      puts "json = #{json}"
+
       expect(response).to match_response_schema("tag")
     end
   end
@@ -40,8 +43,10 @@ RSpec.describe 'Tag API', type: :request do
       todo_1 = tag.todos.create({title: "Todo Item 1"})
       todo_2 = tag.todos.create({title: "Todo Item 2"})
       todo_2 = tag.todos.create({title: "Todo Item 3"})
+
       get "/tags/#{tag.name}/todos"
       json = JSON.parse(response.body)
+
       expect(json.size).to eq(3)
     end
   end
@@ -93,7 +98,7 @@ RSpec.describe 'Tag API', type: :request do
       end
 
       it 'returns a validation failure messages' do
-        expect(response.body).to match(/can\'t be blank/)
+        expect(response.body).to match(/can't be blank/)
         expect(response.body).to match(/is too short/)
       end
     end
