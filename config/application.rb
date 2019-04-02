@@ -30,5 +30,12 @@ module TodoApp
     # config.i18n.default_locale = :de
     Mongoid.load!('./config/mongoid.yml')
 
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :delete, :put, :patch, :options, :head]
+      end
+    end
+
   end
 end
