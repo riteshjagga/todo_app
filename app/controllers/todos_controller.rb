@@ -9,11 +9,12 @@ class TodosController < ApplicationController
 
     deleted = !!params[:deleted]
     todos_scope = deleted ? Todo.deleted : Todo.not_deleted
+    todos_count = deleted ? Todo.deleted.count : Todo.not_deleted.count
 
     @todos = todos_scope.page(page_params).per(items_per_page)
     @count = Todo.count
     # @todos_object = {count: Todo.count, todos: @todos}
-    render json: {count: Todo.count, todos: @todos}
+    render json: {count: todos_count, todos: @todos}
     # render "todos/index"
   end
 

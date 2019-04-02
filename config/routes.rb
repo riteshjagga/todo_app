@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   resources :todos, only: [:index, :show, :create, :update, :destroy]
-  patch 'todos/:id/update_status', to: 'todos#update_status'
+  patch 'todos/:id/update_status', to: 'todos#update_status', via: :options
   patch 'todos/:id/undo_delete', to: 'todos#undo_delete'
+  # match '/todos/:id/update_status' => "todos#update_status", via: :options
 
   resources :tags, only: [:index, :show, :create, :update]
   get 'tags/:name/todos', to: 'tags#todos'
