@@ -6,16 +6,23 @@ class TodosController < ApplicationController
   def index
     page_params = params[:page].presence || 1
     items_per_page = params[:items_per_page].presence || 5
-
     deleted = !!params[:deleted]
-    todos_scope = deleted ? Todo.deleted : Todo.not_deleted
-    todos_count = deleted ? Todo.deleted.count : Todo.not_deleted.count
+    title = params[:title]
 
-    @todos = todos_scope.page(page_params).per(items_per_page)
-    @count = Todo.count
+    todos_scope = deleted ? Todo.deleted : Todo.not_deleted
+    todos_scope = todos_scope.where(title: /#{title}/i) if(!title.nil?)
+    todos_count = todos_scope.count
+
+    @todos = todos_scope.includes(:tags).page(page_params).per(items_per_page)
+
+    render json: {count: todos_count, todos: @todos.as_json(include: {
+        tags: {only: [:_id, :name]}
+    })}
     # @todos_object = {count: Todo.count, todos: @todos}
-    render json: {count: todos_count, todos: @todos}
+    # render json: {count: todos_count, todos: @todos.as_json(include: {tags: {only: [:_id, :name]}})}
+    # render json: {count: todos_count, todos: @todos}
     # render "todos/index"
+
   end
 
   # POST /todos

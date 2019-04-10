@@ -6,8 +6,9 @@ class TagsController < ApplicationController
   def index
     page_params = params[:page]
     items_per_page = params[:items_per_page]
+    name = params[:name]
 
-    @tags = Tag.page(page_params).per(items_per_page)
+    @tags = Tag.where(name: /#{name}/i).page(page_params).per(items_per_page)
     # @count = Tag.count
     # @tags_response = {"tags" => @tags, "count" => Tag.count}
     # @tags_response = {count: @count, tags: @tags}
@@ -41,9 +42,16 @@ class TagsController < ApplicationController
 
   # GET /tags/:name/todos
   def todos
-    tags = Tag.where(name: /^#{params[:name]}$/i)
-    @todos = tags.empty? ? [] : tags.first.todos
-    render json: @todos
+    page_params = params[:page].presence || 1
+    items_per_page = params[:items_per_page].presence || 5
+
+    @todos = Tag.where(name: /^#{params[:name]}$/i).first.todos rescue []
+    @todos = (params[:deleted]) ? @todos.deleted : @todos.not_deleted
+    @todos = @todos.includes(:tags).page(page_params).per(items_per_page) if(@todos.count > 0)
+
+    render json: {count: @todos.count, todos: @todos.as_json(include: {
+            tags: {only: [:_id, :name]}
+        })}
   end
 
   private
