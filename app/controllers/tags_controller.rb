@@ -13,7 +13,7 @@ class TagsController < ApplicationController
     # @tags_response = {"tags" => @tags, "count" => Tag.count}
     # @tags_response = {count: @count, tags: @tags}
     # render json: @tags
-    render json: {count: Tag.count, tags: @tags}
+    render json: {count: @tags.count, tags: @tags}
   end
 
   # POST /tags
@@ -46,8 +46,10 @@ class TagsController < ApplicationController
     items_per_page = params[:items_per_page].presence || 5
 
     @todos = Tag.where(name: /^#{params[:name]}$/i).first.todos rescue []
-    @todos = (params[:deleted]) ? @todos.deleted : @todos.not_deleted
-    @todos = @todos.includes(:tags).page(page_params).per(items_per_page) if(@todos.count > 0)
+    if @todos.count > 0
+      @todos = (params[:deleted]) ? @todos.deleted : @todos.not_deleted
+      @todos = @todos.includes(:tags).page(page_params).per(items_per_page)
+    end
 
     render json: {count: @todos.count, todos: @todos.as_json(include: {
             tags: {only: [:_id, :name]}
